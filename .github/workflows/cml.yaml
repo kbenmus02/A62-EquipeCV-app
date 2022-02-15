@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-      - develop
+      #- develop
 jobs:
   upload_model_and_deployment:
     runs-on: ubuntu-latest
