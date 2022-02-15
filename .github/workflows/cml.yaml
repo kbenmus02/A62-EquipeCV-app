@@ -1,0 +1,33 @@
+name: projetA62
+on:
+  push:
+    branches:
+      - main
+      - develop
+jobs:
+  upload_model_and_deployment:
+    runs-on: ubuntu-latest
+    #needs: [upload_model]
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup dvc
+        env:
+          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
+        run : |  
+          pip install dvc
+          pip install 'dvc[gdrive]'
+          dvc pull 
+          ls -lrt model/
+          rm model/X_* model/y_*
+          ls -lrt model/
+
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "app-malaria" # Must be unique in Heroku
+          heroku_email: "$GITHUB_EMAIL"
+          usedocker: true
+        env:
+          GITHUB_EMAIL: "$GITHUB_EMAIL"
+      
+      
