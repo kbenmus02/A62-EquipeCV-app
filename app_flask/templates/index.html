@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <title>File Upload</title>
+  </head>
+  <body>
+    <h1>File Upload</h1>
+    <form method="POST" action="" enctype="multipart/form-data">
+      <p><input type="file" name="img_file" accept=".png" multiple></p>
+      <p><input type="submit" name="predict_button" value="Predict"></p>
+    </form>
+    <hr>
+    <table>
+      <th>Name</th>
+      <th>Picture</th>
+      {% for file_name in file_name_list %}
+        <tr>
+          <td>{{ file_name }}</td>
+          <td>
+            <img src="{{ url_for('uploads', filename=file_name) }}" style="width: 64px">
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+    <hr>
+    <h1>Prédiction</h1>
+      {{ table_row_list|safe }}
+    <hr>
+  </body>
+</html>
